@@ -1,13 +1,15 @@
 package com.asma.parfums.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
@@ -22,7 +24,18 @@ public class Parfum {
 	
 	@ManyToOne
 	private Marque marque;
-
+	
+	
+	/*@OneToOne
+	private Image image;
+*/
+	
+	@OneToMany (mappedBy = "parfum")
+	 private List<Image> images;
+	
+	private String imagePath;
+	
+	
 	
 	public Parfum() {
 		super();
@@ -80,6 +93,36 @@ public class Parfum {
 		return "Parfum [idParfum=" + idParfum + ", ParfumName=" + parfumName + ", ParfumPrice=" + parfumPrice
 				+ ", releasedate=" + releasedate + "]";
 	}
+
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+
+	/*public Image getImage() {
+		return image;
+	}
+
+
+	public void setImage(Image image) {
+		this.image = image;
+	}*/
 	
 	
 	

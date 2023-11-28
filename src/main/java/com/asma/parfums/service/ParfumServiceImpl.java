@@ -1,5 +1,8 @@
 package com.asma.parfums.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.asma.parfums.entities.Marque;
 import com.asma.parfums.entities.Parfum;
+import com.asma.parfums.repos.ImageRepository;
 import com.asma.parfums.repos.ParfumRepository;
 
 
@@ -16,7 +20,9 @@ public class ParfumServiceImpl implements ParfumService {
 	
 	@Autowired
 	ParfumRepository parfumRepository;
-
+	
+	@Autowired
+	ImageRepository imageRepository;
 
 	@Override
 	public Parfum saveParfum(Parfum p) {
@@ -24,10 +30,29 @@ public class ParfumServiceImpl implements ParfumService {
 
 	}
 
-	@Override
+	/*@Override
 	public Parfum updateParfum(Parfum p) {
 		return parfumRepository.save(p);
+	}*/
+	
+	
+	@Override
+	public Parfum updateParfum(Parfum p) {
+		
+		//Long oldParfImageId = this.getParfum(p.getIdParfum()).getImage().getIdImage();
+		
+		//Long newParfImageId = p.getImage().getIdImage();
+		
+		Parfum parfUpdated = parfumRepository.save(p);
+		
+		//if (oldParfImageId != newParfImageId) // si l'image a été modifiée
+			
+			//imageRepository.deleteById(oldParfImageId);
+		
+		return parfUpdated;
 	}
+	
+	
 
 	@Override
 	public void deleteParfum(Parfum p) {
@@ -35,13 +60,25 @@ public class ParfumServiceImpl implements ParfumService {
 		
 	}
 
-	@Override
+	/*@Override
 	public void deleteParfumById(Long id) {
 		parfumRepository.deleteById(id);
 		
 		
+	}*/
+	
+	@Override
+	public void deleteParfumById(Long id) {
+		Parfum p = getParfum(id);
+		// suuprimer l'image avant de supprimer le parfum
+		try {
+			Files.delete(Paths.get(System.getProperty("user.home") + "/images/" + p.getImagePath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		parfumRepository.deleteById(id);
 	}
-
+	
 	@Override
 	public Parfum getParfum(Long id) {
 		return parfumRepository.findById(id).get();

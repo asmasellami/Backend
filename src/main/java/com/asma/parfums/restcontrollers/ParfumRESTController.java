@@ -22,30 +22,31 @@ public class ParfumRESTController {
 	@Autowired
 	ParfumService parfumService;
 
-	@RequestMapping(method=RequestMethod.GET)
-
+	@RequestMapping(path ="all",method=RequestMethod.GET)
 	public List<Parfum> getAllParfums() {
 
 		return parfumService.getAllParfums();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Parfum getProduitById(@PathVariable("id") Long id) {
+	@RequestMapping(value ="/getbyid/{id}", method = RequestMethod.GET)
+	public Parfum getParfumById(@PathVariable("id") Long id) {
 		return parfumService.getParfum(id);
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public Parfum createProduit(@RequestBody Parfum parfum) {
+	@RequestMapping(path="/addParf",method = RequestMethod.POST)
+	public Parfum createParfum(@RequestBody Parfum parfum) {
 	return parfumService.saveParfum(parfum);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT)
-	public Parfum updateProduit(@RequestBody Parfum parfum) {
+	@RequestMapping(path="/updateParf",method = RequestMethod.PUT)
+	public Parfum updateParfum(@RequestBody Parfum parfum) {
 	return parfumService.updateParfum(parfum);
 	}
+
 	
-	@RequestMapping(value="/{id}",method = RequestMethod.DELETE)
-	public void deleteProduit(@PathVariable("id") Long id)
+	@RequestMapping(value="/delParf/{id}",method = RequestMethod.DELETE)
+	//@DeleteMapping("/delParf/{id}")
+	public void deleteParfum(@PathVariable("id") Long id)
 	{
 		parfumService.deleteParfumById(id);
 	}
@@ -56,7 +57,7 @@ public class ParfumRESTController {
 	}
 	
 	@RequestMapping(value="/parfsByName/{nom}",method = RequestMethod.GET)
-	public List<Parfum> findByNomProduitContains(@PathVariable("nom") String nom) {
+	public List<Parfum> findByNomParfumContains(@PathVariable("nom") String nom) {
 	return parfumService.findByParfumNameContains(nom);
 	}
 }
